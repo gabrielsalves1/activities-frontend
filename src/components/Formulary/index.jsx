@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { useForm } from "react-hook-form";
 import style from './Formulary.module.scss';
 
 export default function Formulary() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [teste, setTeste] = useState();
-  const onSubmit = data => axios.post("http://127.0.0.1:3000/api/v1/activities", data)
+  const onSubmit = data => api.post("/activities", data)
   .then(() => {
-      console.log("Ok");
+      console.log("Post realizado com sucesso");
   })
   .catch(() => {
-      console.log("Erro");
-      console.log(teste);
+      console.log("Erro ao postar a Atividade");
   });
 
   return (
@@ -27,7 +25,7 @@ export default function Formulary() {
       </div>
 
       <div>
-        <label>
+        <label htmlFor='description'>
           Descrição
         </label>
 
@@ -35,7 +33,7 @@ export default function Formulary() {
       </div>
 
       <div>
-        <label>
+        <label htmlFor='date'>
           Data
         </label>
 
@@ -43,14 +41,7 @@ export default function Formulary() {
         {errors.date && <span>Esse campo é obrigatório.</span>}
       </div>
 
-      <div>
-        <label>
-          Teste
-        </label>
-        <input type="text" name="teste" onChange={e => setTeste(e.target.value)} />
-      </div>
-
-      <input type="submit" value='Enviar' />
+      <input type="submit" value='Enviar' className='botaoEnviar' />
     </form>
   );
 }
