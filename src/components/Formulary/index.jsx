@@ -1,47 +1,43 @@
 import React, { useState } from 'react';
 import api from '../../services/api';
 import { useForm } from "react-hook-form";
+import { Form, Button } from 'react-bootstrap';
 import style from './Formulary.module.scss';
 
 export default function Formulary() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const onSubmit = data => api.post("/activities", data)
-  .then(() => {
-      console.log("Post realizado com sucesso");
-  })
-  .catch(() => {
-      console.log("Erro ao postar a Atividade");
-  });
+
+  const onSubmit = data => { 
+    console.log(typeof data.file[0])
+    api.post("/activities", data)
+  }
 
   return (
-    <form onSubmit = { handleSubmit(onSubmit) } >
-      <div>
-        <label htmlFor='name'>
-          Nome
-        </label>
-
-        <input name="name" {...register("name", { required: true })} />
+    <Form onSubmit = { handleSubmit(onSubmit) } >
+      <Form.Group>
+        <Form.Label htmlFor='name'>Nome</Form.Label>
+        <Form.Control name="name" {...register("name", { required: true })} />
         {errors.name && <span>Esse campo é obrigatório.</span>}
-      </div>
+      </Form.Group>
 
-      <div>
-        <label htmlFor='description'>
-          Descrição
-        </label>
+      <Form.Group>
+        <Form.Label htmlFor='description'>Descrição</Form.Label>
+        <Form.Control name="description" {...register("description")} />
+      </Form.Group>
 
-        <input name="description" {...register("description")} />
-      </div>
-
-      <div>
-        <label htmlFor='date'>
-          Data
-        </label>
-
-        <input name="date" {...register("date", { required: true })} />
+      <Form.Group>
+        <Form.Label htmlFor='date'>Data</Form.Label>
+        <Form.Control name="date" {...register("date", { required: true })} />
         {errors.date && <span>Esse campo é obrigatório.</span>}
-      </div>
+      </Form.Group>
 
-      <input type="submit" value='Enviar' className='botaoEnviar' />
-    </form>
+      <Form.Group controlId="formFile" className="mb-3" htmlFor='file'>
+        <Form.Label>Arquivo</Form.Label>
+        <Form.Control type="file" name="file" {...register("file", { required: true })} />
+        {errors.file && <span>Esse campo é obrigatório.</span>}
+      </Form.Group>
+
+      <Button type="submit" value='Enviar' className={style.botaoEnviar}>Enviar</Button>
+    </Form>
   );
 }
