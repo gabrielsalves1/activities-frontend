@@ -16,10 +16,11 @@ export default function ListActivities() {
     <div>
         {activities?.map((activity) => (
           <Activity 
-            key={activity.id}
+            id={activity.id}
             name={activity.name}
             description={activity.description}
             date={activity.date}
+            activityFile={activity.activityFile}
           />
         ))}
     </div>

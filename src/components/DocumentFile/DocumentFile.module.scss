@@ -1,0 +1,24 @@
+.iconeArquivo {
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+.show{
+  display: block !important;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.img {
+  margin: 1em 0;
+  border-radius: 5px;
+  border: 4px solid;
+}
