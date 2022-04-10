@@ -14,7 +14,7 @@ export default function Activity(props) {
           <Card.Subtitle>{props.description}</Card.Subtitle>
           <Card.Text>{props.date}</Card.Text>
 
-          <DocumentFile id={props.id} activityFile={props.activityFile}/>
+          <DocumentFile id={props.id} activityFileUrl={props.activityFileUrl} activityFileBlob={props.activityFileBlob}/>
         </Card.Body>
       </Card>
     </>

@@ -14,15 +14,20 @@ export default function ListActivities() {
 
   return(
     <div>
+      <ul>
         {activities?.map((activity) => (
-          <Activity 
+          <li key={activity.id}>
+            <Activity 
             id={activity.id}
             name={activity.name}
             description={activity.description}
             date={activity.date}
-            activityFile={activity.activityFile}
-          />
+            activityFileUrl={activity.activityFileUrl}
+            activityFileBlob={activity.activityFile_blob}
+            />
+          </li>
         ))}
+      </ul>
     </div>
   );
 }

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import api from '../../services/api';
-import axios from 'axios';
 import { useForm } from "react-hook-form";
 import { Form, Button, Image } from 'react-bootstrap';
 import style from './Formulary.module.scss';
+import api from '../../services/api';
 
 export default function Formulary() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [ file, setFile ] = useState();
-  const [ baseImage, setBaseImage ] = useState();
 
   const handleFile = (e) => {
     setFile(e.target.files[0])
@@ -21,7 +19,7 @@ export default function Formulary() {
     formData.append('description', data['description'])
     formData.append('date', data['date'])
 
-    api.post('http://127.0.0.1:3001/api/v1/activities', formData)
+    api.post('/activities', formData)
     .then((res) => {
       console.log(res)
     }).catch((err) => {
@@ -55,8 +53,7 @@ export default function Formulary() {
         }} />
         {errors.file && <span>Esse campo é obrigatório.</span>}
       </Form.Group>
-      
-      <Image src={baseImage} rounded />
+
       <br/>
       <Button type="submit" value='Enviar' className={style.botaoEnviar}>Enviar</Button>
     </Form>

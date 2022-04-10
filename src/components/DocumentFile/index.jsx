@@ -3,10 +3,10 @@ import { BsFillFileEarmarkPdfFill } from "react-icons/bs";
 import { Image, Button } from 'react-bootstrap';
 import style from './DocumentFile.module.scss';
 import Modal from 'react-modal';
-import Axios from 'axios';
+import fileDownload from 'js-file-download';
+import api from '../../services/api';
 
 export default function DocumentFile(props) {
-  const [ imgUrl, setImgUrl ] = useState();
   const [ modalIsOpen, setIsOpen ] = useState(false);
 
   function handleOpenModal() {
@@ -17,18 +17,19 @@ export default function DocumentFile(props) {
     setIsOpen(false);
   }
 
-  const downloadFile = async(url) => {
-    await Axios.get(url)
+  function download(url, fileName) {
+    api.get(url, {
+      responseType: 'blob',
+    })
     .then(res => {
-      setImgUrl(res.data.activityFile);
-      handleOpenModal();
+      fileDownload(res.data, fileName)
     });
   }
 
   return (
     <div>
       <BsFillFileEarmarkPdfFill className={style.iconeArquivo} onClick={() => {
-        downloadFile(`http://127.0.0.1:3001/api/v1/activities/${props.id}`)
+        handleOpenModal();
       }}/>
 
       <Modal 
@@ -39,8 +40,11 @@ export default function DocumentFile(props) {
         <Button onClick={handleCloseModal} className={style.button}>
           Fechar
         </Button>
+        <Button onClick={() => download(props.activityFileUrl, props.activityFileBlob.filename)} className={style.button}>
+          Baixar
+        </Button>
   
-        { imgUrl != undefined && (<Image src={imgUrl} className={style.img}/>) }
+        { props.activityFileUrl !== undefined && (<Image src={props.activityFileUrl} className={style.img}/>) }
       </Modal>
     </div>
   );
