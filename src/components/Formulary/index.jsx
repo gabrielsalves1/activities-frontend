@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import { Form, Button, Image } from 'react-bootstrap';
 import style from './Formulary.module.scss';
 import api from '../../services/api';
+import axios from 'axios';
 
 export default function Formulary() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -12,14 +13,20 @@ export default function Formulary() {
     setFile(e.target.files[0])
   }
 
+  useEffect(() => {
+    axios.get('http://localhost:8080/file').then((resposta) => {
+      console.log(resposta);
+    });
+  }, []);
+
   const onSubmit = data => {
     let formData = new FormData();
-    formData.append('activityFile', file)
-    formData.append('name', data['name'])
-    formData.append('description', data['description'])
-    formData.append('date', data['date'])
-
-    api.post('/activities', formData)
+    formData.append('file', file)
+    formData.append('name', {"nome": "gabriel"})
+    //formData.append('description', data['description'])
+    //formData.append('date', data['date'])
+    console.log(formData)
+    axios.post('http://localhost:8080/file', formData)
     .then((res) => {
       console.log(res)
     }).catch((err) => {
